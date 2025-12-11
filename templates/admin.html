@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="admin-panel">
+        <h1>Painel de Controle</h1>
+        <a href="{{ url_for('logout') }}" style="color:red; float:right;">Sair</a>
+
+        <div class="admin-grid">
+            
+            <div class="admin-card">
+                <h3>📁 Criar Novo Álbum</h3>
+                <form method="POST">
+                    <input type="hidden" name="action" value="create_album">
+                    <input type="text" name="album_name" placeholder="Ex: Encontro no Posto" required>
+                    <button type="submit" class="btn-submit">Criar Álbum</button>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h3>⬆️ Upload de Arquivos</h3>
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="upload">
+                    
+                    <label>Selecione os Arquivos (Pode selecionar vários):</label>
+                    <input type="file" name="files" multiple required class="custom-file">
+                    
+                    <label>Se for Foto, escolha o Álbum:</label>
+                    <select name="album_id">
+                        <option value="">-- Nenhum (Para Músicas/Zips) --</option>
+                        {% for album in albuns %}
+                            <option value="{{ album['id'] }}">{{ album['title'] }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit" class="btn-submit">Enviar Tudo</button>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h3>📜 Editar História</h3>
+                <form method="POST">
+                    <input type="hidden" name="action" value="update_settings">
+                    <textarea name="history_text" rows="4" style="width:100%; background:#000; color:#fff; border:1px solid #333;">{{ historia }}</textarea>
+                    <button type="submit" class="btn-submit">Salvar Texto</button>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h3>🗑️ Apagar Álbuns</h3>
+                <p style="font-size: 0.8rem; color: #aaa;">Cuidado: Apagar um álbum remove todas as fotos dele.</p>
+                
+                <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                    {% for album in albuns %}
+                    <li style="background: #000; border: 1px solid #333; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: bold;">{{ album['title'] }}</span>
+                        
+                        <form action="{{ url_for('delete_album', album_id=album['id']) }}" method="POST" onsubmit="return confirm('Tem certeza absoluta? Isso vai apagar o álbum e TODAS as fotos dentro dele!');" style="margin: 0;">
+                            <button type="submit" style="background: #ff0000; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-size: 0.8rem;">
+                                Excluir
+                            </button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li style="color: #666;">Nenhum álbum para apagar.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+        </div>
+
+        <h3 style="margin-top:40px; border-bottom: 2px solid #0f0;">Gerenciar Arquivos Recentes</h3>
+        <table class="file-table">
+            <tr>
+                <th>ID</th>
+                <th>Arquivo</th>
+                <th>Tipo</th>
+                <th>Ação</th>
+            </tr>
+            {% for media in midias %}
+            <tr>
+                <td>{{ media['id'] }}</td>
+                <td>{{ media['filename'] }}</td>
+                <td>{{ media['type'] }}</td>
+                <td>
+                    <form action="{{ url_for('delete_media', id=media['id']) }}" method="POST" onsubmit="return confirm('Tem certeza?');">
+                        <button type="submit" style="background:red; color:white; border:none; padding:5px; cursor:pointer;">X</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

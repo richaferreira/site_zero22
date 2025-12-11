@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="section-title">Downloads & Sets</h2>
+    <p style="margin-bottom: 30px; color: #aaa;">Sets, alinhamentos e ficheiros para download.</p>
+
+    <div class="music-list">
+        {% for arq in arquivos %}
+        <div class="music-item">
+            <div style="flex-grow: 1;">
+                <span style="font-size: 1.5rem; margin-right: 15px;">
+                    {% if arq['type'] == 'audio' %} 🎵 {% else %} 📦 {% endif %}
+                </span>
+                <span style="font-weight: bold; font-size: 1.1rem;">{{ arq['filename'] }}</span>
+            </div>
+
+            <div style="min-width: 200px; text-align: right;">
+                {% if arq['type'] == 'audio' %}
+                    <audio controls style="height: 30px; vertical-align: middle;">
+                        <source src="{{ url_for('static', filename='uploads/' + arq['filename']) }}">
+                        O teu navegador não suporta áudio.
+                    </audio>
+                {% else %}
+                    <a href="{{ url_for('static', filename='uploads/' + arq['filename']) }}" download class="btn-neon" style="padding: 5px 15px; font-size: 0.8rem;">
+                        Baixar Arquivo
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+            <p>Nenhuma música ou ficheiro disponível no momento.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

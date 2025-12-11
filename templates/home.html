@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="hero">
+    </section>
+
+<section class="container">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-left: 5px solid var(--neon); padding-left: 15px;">
+        
+        <h2 style="margin: 0; border: none; padding: 0; color: var(--neon);">Últimos Álbuns</h2>
+        
+        
+        </a>
+
+    </div>
+
+    <div class="gallery-grid">
+        {% for album in albuns %}
+        <div class="card-album">
+            <a href="{{ url_for('ver_album', album_id=album['id']) }}">
+                <div class="folder-icon">📁</div>
+                <h3>{{ album['title'] }}</h3>
+                <p>Clique para ver fotos</p>
+            </a>
+        </div>
+        {% else %}
+            <p>Nenhum álbum criado ainda.</p>
+        {% endfor %}
+    </div>
+
+    <div class="bottom-header">
+        <h1>{{ titulo }}</h1>
+        <p>Estilo de vida automotivo. Onde o grave bate forte.</p>
+        
+        <a href="{{ url_for('fotos') }}" class="btn-neon" style="display: inline-block; margin-top: 20px;">
+            Ver Galeria Completa
+        </a>
+
+        <hr style="border: 0; border-top: 2px solid var(--neon); width: 50%; margin: 40px auto 10px auto;">
+    </div>
+
+</section>
+{% endblock %}

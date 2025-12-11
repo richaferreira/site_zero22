@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 20px;">
+        <div>
+            <h2 style="margin: 0; color: var(--neon);">{{ album['title'] }}</h2>
+            <p style="color: #888; margin: 5px 0 0 0;">Visualizar fotos deste evento</p>
+        </div>
+        <a href="{{ url_for('fotos') }}" class="btn-admin">← Voltar aos Álbuns</a>
+    </div>
+
+    <div class="gallery-grid">
+        {% for foto in fotos %}
+        <div class="photo-card" style="position: relative;">
+            <a href="{{ url_for('static', filename='uploads/' + foto['filename']) }}" target="_blank">
+                <img src="{{ url_for('static', filename='uploads/' + foto['filename']) }}" alt="Foto Zero22" style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px; border: 1px solid #333;">
+            </a>
+        </div>
+        {% else %}
+            <p>Este álbum ainda não tem fotos.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

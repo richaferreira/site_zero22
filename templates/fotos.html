@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="section-title">Galeria de Álbuns</h2>
+    
+    <div class="gallery-grid">
+        {% for album in albuns %}
+        <div class="card-album">
+            <a href="{{ url_for('ver_album', album_id=album['id']) }}">
+                <div class="folder-icon">📁</div>
+                <h3>{{ album['title'] }}</h3>
+                <p style="color: #666; font-size: 0.9rem;">
+                    {{ album['created_at'][:10] }} </p>
+                <button class="btn-neon" style="margin-top: 10px; font-size: 0.8rem;">Abrir Pasta</button>
+            </a>
+        </div>
+        {% else %}
+            <div style="text-align: center; width: 100%;">
+                <p>Ainda não existem álbuns criados.</p>
+                
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

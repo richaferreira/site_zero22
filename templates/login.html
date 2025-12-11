@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Zero22</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { width: 300px; padding: 40px; border: 1px solid #0f0; background: #111; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>Acesso <span>Restrito</span></h2>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p style="color: red">{{ messages[0] }}</p>
+            {% endif %}
+        {% endwith %}
+
+        <form method="post">
+            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit" class="btn-submit" style="width: 100%">Entrar</button>
+        </form>
+        <p style="margin-top: 20px;"><a href="{{ url_for('index') }}">Voltar ao site</a></p>
+    </div>
+</body>
+</html>

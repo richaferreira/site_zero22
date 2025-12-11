@@ -1,0 +1,196 @@
+:root {
+    --bg-color: #0a0a0a;
+    --neon: #00ff41;
+    --dark-grey: #1a1a1a;
+    --text: #ffffff;
+}
+
+body { background: var(--bg-color); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+a { text-decoration: none; color: white; transition: 0.3s; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+/* --- HEADER CENTRALIZADO (NOVO) --- */
+header {
+    background: #000;
+    border-bottom: 2px solid var(--neon);
+    padding: 20px 0;        /* Espaço em cima e embaixo */
+    display: flex;          /* Ativa flexbox */
+    flex-direction: column; /* Coloca um item embaixo do outro (Coluna) */
+    align-items: center;    /* Centraliza tudo horizontalmente */
+    gap: 15px;              /* Espaço entre o Logo e o Menu */
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); /* Sombra verde leve */
+}
+
+/* Estilo do Logo ZERO22 */
+.logo { 
+    font-size: 2.5rem;      /* Logo maior */
+    font-weight: bold; 
+    letter-spacing: 2px; 
+    text-transform: uppercase;
+}
+.logo span { color: var(--neon); }
+
+/* --- MENU TUNADO --- */
+header nav ul { 
+    display: flex; 
+    gap: 15px; /* Espaço entre os links */
+    justify-content: center; /* Garante que o menu fique no centro */
+    align-items: center;
+}
+
+/* Estilo dos Links */
+header nav ul li a {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.4s ease;
+}
+
+/* Efeito ao passar o mouse */
+header nav ul li a:hover {
+    color: var(--neon);
+    background-color: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 15px var(--neon), inset 0 0 10px var(--neon);
+    transform: scale(1.1) skew(-10deg);
+    text-shadow: 0 0 5px #fff;
+}
+
+/* Destaque para botões especiais */
+.btn-login, .btn-admin {
+    border: 2px solid var(--neon) !important;
+}
+
+/* --- HERO (BANNER) --- */
+.hero {
+    height: 60vh;
+    min-height: 400px;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://static.wixstatic.com/media/7fc81c_1c5a741bb84f4877a998db425a0ee3fc~mv2.jpg/v1/fill/w_940,h_440,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/maxresdefault.jpg');
+    background-size: cover;
+    background-position: center;
+    
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: center;
+    padding-top: 60px;
+}
+.hero h1 { font-size: 3.5rem; margin: 0; text-shadow: 0 0 10px var(--neon); }
+
+.btn-neon {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 30px;
+    background: var(--neon);
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none; 
+    cursor: pointer;
+}
+.btn-neon:hover { box-shadow: 0 0 20px var(--neon); }
+
+/* LAYOUT GERAL */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+.section-title { color: var(--neon); border-left: 5px solid var(--neon); padding-left: 15px; margin-bottom: 30px; }
+
+/* ADMIN */
+.admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.admin-card { background: var(--dark-grey); padding: 20px; border: 1px solid #333; border-radius: 8px; }
+.admin-card h3 { color: var(--neon); margin-top: 0; }
+input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #444; color: white; box-sizing: border-box; }
+.btn-submit { width: 100%; background: var(--neon); border: none; padding: 10px; font-weight: bold; cursor: pointer; }
+.btn-submit:hover { box-shadow: 0 0 15px var(--neon); }
+
+/* TABELA ADMIN */
+.file-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.file-table th, .file-table td { border: 1px solid #333; padding: 10px; text-align: left; }
+.file-table th { background: #222; color: var(--neon); }
+
+/* ÁLBUNS E FOTOS */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.card-album {
+    background: var(--dark-grey);
+    text-align: center;
+    padding: 30px;
+    border: 1px solid #333;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.card-album:hover { border-color: var(--neon); transform: translateY(-5px); }
+.folder-icon { font-size: 4rem; margin-bottom: 10px; }
+.card-album a { display: block; height: 100%; } /* Garante clique no card todo */
+
+.photo-card img { width: 100%; height: 200px; object-fit: cover; border-bottom: 2px solid var(--neon); }
+
+/* MÚSICAS */
+.music-item {
+    background: var(--dark-grey);
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 3px solid var(--neon);
+}
+audio { height: 30px; }
+
+/* FOOTER */
+footer {
+    background: #000;
+    padding: 40px 0;
+    text-align: center;
+    border-top: 2px solid var(--neon);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.instagram-icon {
+    font-size: 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.instagram-icon:hover {
+    color: var(--neon);
+    transform: scale(1.1);
+    text-shadow: 0 0 10px var(--neon);
+}
+
+/* BOTTOM HEADER (Título no final da página) */
+.bottom-header {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: var(--dark-grey);
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.bottom-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 10px var(--neon);
+}
+
+.bottom-header p {
+    color: #aaa;
+    font-size: 1.1rem;
+}
