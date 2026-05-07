@@ -3,56 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipe Zero22</title>
+    <meta name="description" content="Equipe Zero22 - Estilo de vida automotivo. Onde o grave bate forte.">
+    <meta name="theme-color" content="#00ff41">
+    <title>{% block title %}Equipe Zero22{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="logo">ZERO<span>22</span></div>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('fotos') }}">Fotos</a></li>
-                <li><a href="{{ url_for('musicas') }}">Músicas</a></li>
-                <li><a href="{{ url_for('historia') }}">História</a></li>
-                
-                <li>
-                    <a href="https://www.instagram.com/equipezero22" target="_blank" style="color: var(--neon);">
-                        <i class="fab fa-instagram"></i> INSTA
-                    </a>
-                </li>
-
-                {% if session.get('user_id') %}
-                    <li><a href="{{ url_for('admin') }}" class="btn-admin">Admin</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login') }}" class="btn-login"><i class="fa fa-lock"></i></a></li>
-                {% endif %}
-            </ul>
-        </nav>
+        <div class="header-content">
+            <div class="logo">ZERO<span>22</span></div>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('fotos') }}"><i class="fas fa-camera"></i> Fotos</a></li>
+                    <li><a href="{{ url_for('musicas') }}"><i class="fas fa-music"></i> Sons</a></li>
+                    <li><a href="{{ url_for('eventos') }}"><i class="fas fa-calendar"></i> Eventos</a></li>
+                    <li><a href="{{ url_for('historia') }}"><i class="fas fa-book"></i> Historia</a></li>
+                    <li>
+                        <a href="https://www.instagram.com/equipezero22" target="_blank" class="nav-instagram">
+                            <i class="fab fa-instagram"></i> Insta
+                        </a>
+                    </li>
+                    {% if session.get('user_id') %}
+                        <li><a href="{{ url_for('admin') }}" class="btn-admin"><i class="fas fa-cog"></i> Admin</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn-login"><i class="fa fa-lock"></i></a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
     </header>
+
     <main>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <div class="alert">{{ messages[0] }}</div>
+                <div class="alert animate-fade-in">
+                    <i class="fas fa-info-circle"></i> {{ messages[0] }}
+                </div>
             {% endif %}
         {% endwith %}
-        
+
         {% block content %}{% endblock %}
     </main>
 
     <footer>
-        <footer>
         <div class="footer-content">
-            <p>&copy; 2025 Equipe Zero22 </p>
-            
-            <a href="https://www.instagram.com/equipezero22" target="_blank" class="instagram-icon">
-                <i class="fab fa-instagram"></i> Siga-nos no Instagram
-            </a>
+            <div class="footer-brand">
+                <div class="logo">ZERO<span>22</span></div>
+                <p>Estilo de vida automotivo.<br>Onde o grave bate forte.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navegacao</h4>
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('fotos') }}">Fotos</a>
+                <a href="{{ url_for('musicas') }}">Sons</a>
+                <a href="{{ url_for('eventos') }}">Eventos</a>
+            </div>
+            <div class="footer-social">
+                <h4>Redes Sociais</h4>
+                <a href="https://www.instagram.com/equipezero22" target="_blank" class="social-link">
+                    <i class="fab fa-instagram"></i> @equipezero22
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Equipe Zero22. Todos os direitos reservados.</p>
         </div>
     </footer>
-</body>
-</html>
-    </footer>
+
+    <script>
+        // Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        // Close menu on link click
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    </script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

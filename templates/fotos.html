@@ -1,24 +1,45 @@
 {% extends "layout.html" %}
+{% block title %}Galeria de Fotos - Equipe Zero22{% endblock %}
 
 {% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-camera"></i> Galeria de Albums</h1>
+    <p>Todos os momentos registrados pela equipe</p>
+</div>
+
 <div class="container">
-    <h2 class="section-title">Galeria de Álbuns</h2>
-    
     <div class="gallery-grid">
         {% for album in albuns %}
-        <div class="card-album">
+        <div class="card-album animate-on-scroll">
             <a href="{{ url_for('ver_album', album_id=album['id']) }}">
-                <div class="folder-icon">📁</div>
-                <h3>{{ album['title'] }}</h3>
-                <p style="color: #666; font-size: 0.9rem;">
-                    {{ album['created_at'][:10] }} </p>
-                <button class="btn-neon" style="margin-top: 10px; font-size: 0.8rem;">Abrir Pasta</button>
+                {% if album['cover'] %}
+                <div class="album-cover">
+                    <img src="{{ url_for('static', filename='uploads/' + album['cover']) }}" alt="{{ album['title'] }}">
+                    <div class="album-overlay">
+                        <i class="fas fa-eye"></i>
+                        <span>{{ album['num_fotos'] }} fotos</span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="album-cover album-no-cover">
+                    <i class="fas fa-folder-open"></i>
+                    <div class="album-overlay">
+                        <i class="fas fa-eye"></i>
+                        <span>{{ album['num_fotos'] }} fotos</span>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="album-info">
+                    <h3>{{ album['title'] }}</h3>
+                    <p><i class="fas fa-calendar-alt"></i> {{ album['created_at'][:10] if album['created_at'] else '' }}</p>
+                </div>
             </a>
         </div>
         {% else %}
-            <div style="text-align: center; width: 100%;">
-                <p>Ainda não existem álbuns criados.</p>
-                
+            <div class="empty-state">
+                <i class="fas fa-camera-retro"></i>
+                <h3>Nenhum album ainda</h3>
+                <p>Os albums aparecerau aqui quando forem criados.</p>
             </div>
         {% endfor %}
     </div>

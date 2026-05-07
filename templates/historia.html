@@ -1,16 +1,22 @@
 {% extends "layout.html" %}
+{% block title %}Nossa Historia - Equipe Zero22{% endblock %}
 
 {% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-book-open"></i> Nossa Historia</h1>
+    <p>Conheca a trajetoria da Equipe Zero22</p>
+</div>
+
 <div class="container">
-    <div style="background: #111; padding: 40px; border-left: 5px solid var(--neon); border-radius: 5px;">
-        <h2 class="section-title" style="margin-top: 0;">História da Equipe Zero22</h2>
-        
-        <div style="font-size: 1.1rem; line-height: 1.8; color: #ddd; white-space: pre-wrap;">
-            {{ texto }}
+    <div class="historia-card animate-on-scroll">
+        <div class="historia-content">
+            <div class="historia-text">
+                {{ texto }}
+            </div>
         </div>
-        
-        <br><br>
-        <img src="https://static.wixstatic.com/media/7fc81c_5912117305a24910a3d9d48581fc5ab8~mv2.jpg/v1/fill/w_1897,h_568,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/7fc81c_5912117305a24910a3d9d48581fc5ab8~mv2.jpg" alt="Equipe Reunida" style="width: 100%; max-height: 400px; object-fit: cover; opacity: 0.6;">
+        <div class="historia-image">
+            <img src="https://static.wixstatic.com/media/7fc81c_5912117305a24910a3d9d48581fc5ab8~mv2.jpg/v1/fill/w_1897,h_568,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/7fc81c_5912117305a24910a3d9d48581fc5ab8~mv2.jpg" alt="Equipe Reunida">
+        </div>
     </div>
 </div>
 {% endblock %}

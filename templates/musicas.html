@@ -1,35 +1,52 @@
 {% extends "layout.html" %}
+{% block title %}Sons & Downloads - Equipe Zero22{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2 class="section-title">Downloads & Sets</h2>
-    <p style="margin-bottom: 30px; color: #aaa;">Sets, alinhamentos e ficheiros para download.</p>
+<div class="page-header">
+    <h1><i class="fas fa-music"></i> Sons & Downloads</h1>
+    <p>Sets, alinhamentos e ficheiros para download</p>
+</div>
 
+<div class="container">
     <div class="music-list">
         {% for arq in arquivos %}
-        <div class="music-item">
-            <div style="flex-grow: 1;">
-                <span style="font-size: 1.5rem; margin-right: 15px;">
-                    {% if arq['type'] == 'audio' %} 🎵 {% else %} 📦 {% endif %}
-                </span>
-                <span style="font-weight: bold; font-size: 1.1rem;">{{ arq['filename'] }}</span>
-            </div>
-
-            <div style="min-width: 200px; text-align: right;">
-                {% if arq['type'] == 'audio' %}
-                    <audio controls style="height: 30px; vertical-align: middle;">
-                        <source src="{{ url_for('static', filename='uploads/' + arq['filename']) }}">
-                        O teu navegador não suporta áudio.
-                    </audio>
+        <div class="music-item animate-on-scroll">
+            <div class="music-cover">
+                {% if arq['cover_image'] %}
+                    <img src="{{ url_for('static', filename='uploads/' + arq['cover_image']) }}" alt="Capa">
                 {% else %}
-                    <a href="{{ url_for('static', filename='uploads/' + arq['filename']) }}" download class="btn-neon" style="padding: 5px 15px; font-size: 0.8rem;">
-                        Baixar Arquivo
-                    </a>
+                    <div class="music-icon">
+                        {% if arq['type'] == 'audio' %}
+                            <i class="fas fa-headphones"></i>
+                        {% else %}
+                            <i class="fas fa-file-archive"></i>
+                        {% endif %}
+                    </div>
                 {% endif %}
+            </div>
+            <div class="music-info">
+                <span class="music-name">{{ arq['filename'] }}</span>
+                <span class="music-type">
+                    {% if arq['type'] == 'audio' %}Audio{% else %}Arquivo ZIP/RAR{% endif %}
+                </span>
+            </div>
+            <div class="music-actions">
+                {% if arq['type'] == 'audio' %}
+                    <audio controls>
+                        <source src="{{ url_for('static', filename='uploads/' + arq['filename']) }}">
+                    </audio>
+                {% endif %}
+                <a href="{{ url_for('static', filename='uploads/' + arq['filename']) }}" download class="btn-download">
+                    <i class="fas fa-download"></i> Baixar
+                </a>
             </div>
         </div>
         {% else %}
-            <p>Nenhuma música ou ficheiro disponível no momento.</p>
+            <div class="empty-state">
+                <i class="fas fa-compact-disc"></i>
+                <h3>Nenhum som disponivel</h3>
+                <p>Os sets e downloads aparecerao aqui em breve.</p>
+            </div>
         {% endfor %}
     </div>
 </div>

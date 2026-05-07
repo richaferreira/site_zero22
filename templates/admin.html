@@ -1,95 +1,177 @@
 {% extends "layout.html" %}
+{% block title %}Painel Admin - Equipe Zero22{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="admin-panel">
-        <h1>Painel de Controle</h1>
-        <a href="{{ url_for('logout') }}" style="color:red; float:right;">Sair</a>
+        <div class="admin-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Painel de Controle</h1>
+            <a href="{{ url_for('logout') }}" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="admin-stats">
+            <div class="stat-box">
+                <i class="fas fa-images"></i>
+                <div>
+                    <span class="stat-number">{{ num_fotos }}</span>
+                    <span class="stat-label">Fotos</span>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-folder"></i>
+                <div>
+                    <span class="stat-number">{{ num_albuns }}</span>
+                    <span class="stat-label">Albums</span>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-music"></i>
+                <div>
+                    <span class="stat-number">{{ num_audios }}</span>
+                    <span class="stat-label">Audios/Zips</span>
+                </div>
+            </div>
+        </div>
 
         <div class="admin-grid">
-            
+            <!-- Criar Album -->
             <div class="admin-card">
-                <h3>📁 Criar Novo Álbum</h3>
-                <form method="POST">
+                <h3><i class="fas fa-folder-plus"></i> Criar Novo Album</h3>
+                <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="create_album">
                     <input type="text" name="album_name" placeholder="Ex: Encontro no Posto" required>
-                    <button type="submit" class="btn-submit">Criar Álbum</button>
+                    <label>Capa do Album (opcional):</label>
+                    <input type="file" name="album_cover" accept="image/*" class="custom-file">
+                    <label>Fotos do Album (pode selecionar varias):</label>
+                    <input type="file" name="album_photos" multiple accept="image/*" class="custom-file">
+                    <button type="submit" class="btn-submit"><i class="fas fa-plus"></i> Criar Album</button>
                 </form>
             </div>
 
+            <!-- Upload -->
             <div class="admin-card">
-                <h3>⬆️ Upload de Arquivos</h3>
+                <h3><i class="fas fa-cloud-upload-alt"></i> Upload de Arquivos</h3>
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="upload">
-                    
-                    <label>Selecione os Arquivos (Pode selecionar vários):</label>
+                    <label>Selecione os Arquivos:</label>
                     <input type="file" name="files" multiple required class="custom-file">
-                    
-                    <label>Se for Foto, escolha o Álbum:</label>
+                    <label>Se for Foto, escolha o Album:</label>
                     <select name="album_id">
-                        <option value="">-- Nenhum (Para Músicas/Zips) --</option>
+                        <option value="">-- Nenhum (Musicas/Zips) --</option>
                         {% for album in albuns %}
                             <option value="{{ album['id'] }}">{{ album['title'] }}</option>
                         {% endfor %}
                     </select>
-
-                    <button type="submit" class="btn-submit">Enviar Tudo</button>
+                    <label>Capa do CD/Set (opcional, para musicas):</label>
+                    <input type="file" name="cover_image" accept="image/*" class="custom-file">
+                    <button type="submit" class="btn-submit"><i class="fas fa-upload"></i> Enviar</button>
                 </form>
             </div>
 
+            <!-- Editar Historia -->
             <div class="admin-card">
-                <h3>📜 Editar História</h3>
+                <h3><i class="fas fa-edit"></i> Editar Conteudo</h3>
                 <form method="POST">
                     <input type="hidden" name="action" value="update_settings">
-                    <textarea name="history_text" rows="4" style="width:100%; background:#000; color:#fff; border:1px solid #333;">{{ historia }}</textarea>
-                    <button type="submit" class="btn-submit">Salvar Texto</button>
+                    <label>Texto da Historia:</label>
+                    <textarea name="history_text" rows="4">{{ historia }}</textarea>
+                    <label>URL do Instagram:</label>
+                    <input type="text" name="instagram_url" value="{{ instagram_url }}" placeholder="https://instagram.com/...">
+                    <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Salvar</button>
                 </form>
             </div>
 
+            <!-- Criar Evento -->
             <div class="admin-card">
-                <h3>🗑️ Apagar Álbuns</h3>
-                <p style="font-size: 0.8rem; color: #aaa;">Cuidado: Apagar um álbum remove todas as fotos dele.</p>
-                
-                <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                <h3><i class="fas fa-calendar-plus"></i> Criar Evento</h3>
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="create_evento">
+                    <input type="text" name="evento_title" placeholder="Nome do Evento" required>
+                    <input type="date" name="evento_date">
+                    <input type="text" name="evento_location" placeholder="Local (Ex: Posto Shell BR-101)">
+                    <textarea name="evento_description" rows="2" placeholder="Descricao do evento..."></textarea>
+                    <label>Imagem/Banner do Evento (opcional):</label>
+                    <input type="file" name="evento_image" accept="image/*" class="custom-file">
+                    <button type="submit" class="btn-submit"><i class="fas fa-plus"></i> Criar Evento</button>
+                </form>
+            </div>
+
+            <!-- Alterar Senha -->
+            <div class="admin-card">
+                <h3><i class="fas fa-key"></i> Alterar Senha</h3>
+                <form method="POST">
+                    <input type="hidden" name="action" value="change_password">
+                    <input type="password" name="new_password" placeholder="Nova senha (min. 4 caracteres)" required>
+                    <button type="submit" class="btn-submit"><i class="fas fa-lock"></i> Alterar</button>
+                </form>
+            </div>
+
+            <!-- Apagar Albums -->
+            <div class="admin-card">
+                <h3><i class="fas fa-trash-alt"></i> Gerenciar Albums</h3>
+                <p class="admin-warning">Cuidado: apagar um album remove todas as fotos dele.</p>
+                <ul class="admin-list">
                     {% for album in albuns %}
-                    <li style="background: #000; border: 1px solid #333; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: bold;">{{ album['title'] }}</span>
-                        
-                        <form action="{{ url_for('delete_album', album_id=album['id']) }}" method="POST" onsubmit="return confirm('Tem certeza absoluta? Isso vai apagar o álbum e TODAS as fotos dentro dele!');" style="margin: 0;">
-                            <button type="submit" style="background: #ff0000; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-size: 0.8rem;">
-                                Excluir
-                            </button>
+                    <li>
+                        <span>{{ album['title'] }}</span>
+                        <form action="{{ url_for('delete_album', album_id=album['id']) }}" method="POST" onsubmit="return confirm('Tem certeza? Isso apaga o album e TODAS as fotos!');">
+                            <button type="submit" class="btn-delete"><i class="fas fa-trash"></i></button>
                         </form>
                     </li>
                     {% else %}
-                    <li style="color: #666;">Nenhum álbum para apagar.</li>
+                    <li class="empty-item">Nenhum album.</li>
                     {% endfor %}
                 </ul>
             </div>
-            
         </div>
 
-        <h3 style="margin-top:40px; border-bottom: 2px solid #0f0;">Gerenciar Arquivos Recentes</h3>
-        <table class="file-table">
-            <tr>
-                <th>ID</th>
-                <th>Arquivo</th>
-                <th>Tipo</th>
-                <th>Ação</th>
-            </tr>
-            {% for media in midias %}
-            <tr>
-                <td>{{ media['id'] }}</td>
-                <td>{{ media['filename'] }}</td>
-                <td>{{ media['type'] }}</td>
-                <td>
-                    <form action="{{ url_for('delete_media', id=media['id']) }}" method="POST" onsubmit="return confirm('Tem certeza?');">
-                        <button type="submit" style="background:red; color:white; border:none; padding:5px; cursor:pointer;">X</button>
-                    </form>
-                </td>
-            </tr>
+        <!-- Eventos existentes -->
+        {% if eventos %}
+        <h3 class="admin-section-title"><i class="fas fa-calendar"></i> Eventos Criados</h3>
+        <div class="admin-list-full">
+            {% for evento in eventos %}
+            <div class="admin-list-item">
+                <div>
+                    <strong>{{ evento['title'] }}</strong>
+                    <span class="admin-meta">{{ evento['date'] if evento['date'] else 'Sem data' }} | {{ evento['location'] if evento['location'] else 'Sem local' }}</span>
+                </div>
+                <form action="{{ url_for('delete_evento', evento_id=evento['id']) }}" method="POST" onsubmit="return confirm('Remover este evento?');">
+                    <button type="submit" class="btn-delete"><i class="fas fa-trash"></i></button>
+                </form>
+            </div>
             {% endfor %}
-        </table>
+        </div>
+        {% endif %}
+
+        <!-- Tabela de Arquivos -->
+        <h3 class="admin-section-title"><i class="fas fa-database"></i> Arquivos Recentes</h3>
+        <div class="table-responsive">
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Arquivo</th>
+                        <th>Tipo</th>
+                        <th>Acao</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for media in midias %}
+                    <tr>
+                        <td>{{ media['id'] }}</td>
+                        <td>{{ media['filename'] }}</td>
+                        <td><span class="badge badge-{{ media['type'] }}">{{ media['type'] }}</span></td>
+                        <td>
+                            <form action="{{ url_for('delete_media', id=media['id']) }}" method="POST" onsubmit="return confirm('Deletar este arquivo?');">
+                                <button type="submit" class="btn-delete-sm"><i class="fas fa-times"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

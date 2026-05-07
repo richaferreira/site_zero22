@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}404 - Pagina nao encontrada{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content animate-fade-in">
+        <h1 class="error-code">404</h1>
+        <h2>Pagina nao encontrada</h2>
+        <p>A pagina que voce procura nao existe ou foi removida.</p>
+        <a href="{{ url_for('index') }}" class="btn-neon">
+            <i class="fas fa-home"></i> Voltar ao Inicio
+        </a>
+    </div>
+</div>
+{% endblock %}

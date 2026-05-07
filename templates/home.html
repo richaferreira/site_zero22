@@ -1,44 +1,90 @@
 {% extends "layout.html" %}
+{% block title %}Equipe Zero22 - Estilo de Vida Automotivo{% endblock %}
 
 {% block content %}
 <section class="hero">
-    </section>
+    <div class="hero-overlay"></div>
+    <div class="hero-content animate-fade-in">
+        <h1 class="hero-title">EQUIPE <span>ZERO22</span></h1>
+        <p class="hero-subtitle">Estilo de vida automotivo. Onde o grave bate forte.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('fotos') }}" class="btn-neon">
+                <i class="fas fa-camera"></i> Ver Galeria
+            </a>
+            <a href="{{ url_for('musicas') }}" class="btn-outline">
+                <i class="fas fa-music"></i> Ouvir Sons
+            </a>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <i class="fas fa-chevron-down"></i>
+    </div>
+</section>
 
 <section class="container">
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-left: 5px solid var(--neon); padding-left: 15px;">
-        
-        <h2 style="margin: 0; border: none; padding: 0; color: var(--neon);">Últimos Álbuns</h2>
-        
-        
-        </a>
-
+    <div class="section-header animate-on-scroll">
+        <h2 class="section-title"><i class="fas fa-fire"></i> Ultimos Albums</h2>
+        <a href="{{ url_for('fotos') }}" class="btn-outline-sm">Ver Todos <i class="fas fa-arrow-right"></i></a>
     </div>
 
     <div class="gallery-grid">
         {% for album in albuns %}
-        <div class="card-album">
+        <div class="card-album animate-on-scroll">
             <a href="{{ url_for('ver_album', album_id=album['id']) }}">
-                <div class="folder-icon">📁</div>
-                <h3>{{ album['title'] }}</h3>
-                <p>Clique para ver fotos</p>
+                {% if album['cover'] %}
+                <div class="album-cover">
+                    <img src="{{ url_for('static', filename='uploads/' + album['cover']) }}" alt="{{ album['title'] }}">
+                    <div class="album-overlay">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+                {% else %}
+                <div class="album-cover album-no-cover">
+                    <i class="fas fa-folder-open"></i>
+                    <div class="album-overlay">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="album-info">
+                    <h3>{{ album['title'] }}</h3>
+                    <p><i class="fas fa-calendar-alt"></i> {{ album['created_at'][:10] if album['created_at'] else 'Sem data' }}</p>
+                </div>
             </a>
         </div>
         {% else %}
-            <p>Nenhum álbum criado ainda.</p>
+            <div class="empty-state">
+                <i class="fas fa-camera-retro"></i>
+                <p>Nenhum album criado ainda.</p>
+            </div>
         {% endfor %}
     </div>
+</section>
 
-    <div class="bottom-header">
-        <h1>{{ titulo }}</h1>
-        <p>Estilo de vida automotivo. Onde o grave bate forte.</p>
-        
-        <a href="{{ url_for('fotos') }}" class="btn-neon" style="display: inline-block; margin-top: 20px;">
-            Ver Galeria Completa
-        </a>
-
-        <hr style="border: 0; border-top: 2px solid var(--neon); width: 50%; margin: 40px auto 10px auto;">
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid animate-on-scroll">
+            <div class="stat-card">
+                <i class="fas fa-car"></i>
+                <h3>Estilo</h3>
+                <p>Automotivo de Rua</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-volume-up"></i>
+                <h3>Som</h3>
+                <p>Grave que Bate Forte</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Equipe</h3>
+                <p>Unidos pela Paixao</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Presenca</h3>
+                <p>Em Todos os Encontros</p>
+            </div>
+        </div>
     </div>
-
 </section>
 {% endblock %}

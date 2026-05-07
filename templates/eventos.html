@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}Eventos - Equipe Zero22{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-calendar-alt"></i> Eventos</h1>
+    <p>Proximos encontros e rolezinhos da equipe</p>
+</div>
+
+<div class="container">
+    <div class="eventos-grid">
+        {% for evento in eventos %}
+        <div class="evento-card animate-on-scroll">
+            {% if evento['image'] %}
+            <div class="evento-image">
+                <img src="{{ url_for('static', filename='uploads/' + evento['image']) }}" alt="{{ evento['title'] }}">
+            </div>
+            {% endif %}
+            <div class="evento-date">
+                <i class="fas fa-calendar-day"></i>
+                <span>{{ evento['date'] if evento['date'] else 'A definir' }}</span>
+            </div>
+            <div class="evento-info">
+                <h3>{{ evento['title'] }}</h3>
+                {% if evento['location'] %}
+                <p class="evento-location"><i class="fas fa-map-marker-alt"></i> {{ evento['location'] }}</p>
+                {% endif %}
+                {% if evento['description'] %}
+                <p class="evento-desc">{{ evento['description'] }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-calendar-times"></i>
+                <h3>Nenhum evento agendado</h3>
+                <p>Fique ligado! Novos eventos serao postados aqui.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

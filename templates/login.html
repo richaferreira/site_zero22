@@ -1,31 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Login Zero22</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .login-card { width: 300px; padding: 40px; border: 1px solid #0f0; background: #111; text-align: center; }
-        input { width: 100%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; }
-    </style>
-</head>
-<body>
-    <div class="login-card">
-        <h2>Acesso <span>Restrito</span></h2>
-        
+{% extends "layout.html" %}
+{% block title %}Login - Equipe Zero22{% endblock %}
+
+{% block content %}
+<div class="login-page">
+    <div class="login-card animate-fade-in">
+        <div class="login-header">
+            <div class="logo">ZERO<span>22</span></div>
+            <h2>Acesso <span>Restrito</span></h2>
+        </div>
+
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <p style="color: red">{{ messages[0] }}</p>
+                <p class="login-error"><i class="fas fa-exclamation-triangle"></i> {{ messages[0] }}</p>
             {% endif %}
         {% endwith %}
 
-        <form method="post">
-            <input type="text" name="username" placeholder="Usuário" required>
-            <input type="password" name="password" placeholder="Senha" required>
-            <button type="submit" class="btn-submit" style="width: 100%">Entrar</button>
+        <form method="post" class="login-form">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="username" placeholder="Usuario" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Senha" required>
+            </div>
+            <button type="submit" class="btn-neon btn-full">
+                <i class="fas fa-sign-in-alt"></i> Entrar
+            </button>
         </form>
-        <p style="margin-top: 20px;"><a href="{{ url_for('index') }}">Voltar ao site</a></p>
+        <p class="login-back"><a href="{{ url_for('index') }}"><i class="fas fa-arrow-left"></i> Voltar ao site</a></p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
