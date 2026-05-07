@@ -351,7 +351,8 @@ def file_too_large(e):
     return redirect(url_for('admin'))
 
 
+os.makedirs('static/uploads', exist_ok=True)
+init_db()
+
 if __name__ == '__main__':
-    os.makedirs('static/uploads', exist_ok=True)
-    init_db()
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
